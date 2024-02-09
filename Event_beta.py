@@ -21,6 +21,20 @@ import platform
 
 class Example(Frame):
     def __init__(self, parent):
+        """"Initializes the GUI and sets default parameters for display and tagging. Also sets up key commands and color schemes for tagging entities and events."
+        Parameters:
+            - parent (object): The parent object that the GUI will be attached to.
+        Returns:
+            - None: This function does not return any value.
+        Processing Logic:
+            - Sets up default parameters for display and tagging.
+            - Initializes key commands for tagging entities and events.
+            - Configures color schemes for tagging entities and events.
+            - Sets up the GUI and attaches it to the parent object.
+        Example:
+            - Example usage: __init__(self, parent)
+            - This function is typically called when creating an instance of the GUI class."""
+        
         Frame.__init__(self, parent)
         self.OS = platform.system().lower()
         self.parent = parent
@@ -84,6 +98,25 @@ class Example(Frame):
         
         
     def initUI(self):
+        """This function initializes the user interface for the SUTDEventAnnotator-V0.6 program. It sets up the layout, buttons, and key bindings for the interface.
+        Parameters:
+            - self: The object instance of the class.
+        Returns:
+            - None: This function does not return any value.
+        Processing Logic:
+            - Sets the title of the parent window.
+            - Configures the columns and rows of the interface.
+            - Creates a label to display the currently opened file.
+            - Creates a text widget for user input.
+            - Creates a scrollbar for the text widget.
+            - Creates buttons for opening, remapping, exporting, and quitting.
+            - Creates buttons for increasing and decreasing the event ID.
+            - Creates an entry field for manually setting the event ID.
+            - Creates labels to display the current event ID and cursor position.
+            - Binds key presses to functions for text input and editing.
+            - Binds mouse clicks to functions for text selection and editing.
+            - Sets the map display for the interface."""
+        
         self.parent.title("SUTDEventAnnotetor-V0.6")
         self.pack(fill=BOTH, expand=True)
         
@@ -187,6 +220,20 @@ class Example(Frame):
         self.setMapShow()
 
     def increaseEventId(self):
+        """Increments the current event ID and updates the maximum event ID if necessary.
+        Parameters:
+            - self (object): The current object.
+        Returns:
+            - None: Does not return anything.
+        Processing Logic:
+            - Prints debug message if debug mode is enabled.
+            - Sets the current event ID to 1 if it is currently empty.
+            - Otherwise, increments the current event ID by 1.
+            - Updates the maximum event ID if the current event ID is greater than the current maximum.
+            - Sets the EventIdString attribute to display the updated maximum and current event IDs.
+        Example:
+            increaseEventId()"""
+        
         if self.debug:
             print("Action Track: increaseEventId")
         if self.currentEventId == "":
@@ -198,6 +245,18 @@ class Example(Frame):
         self.EventIdString.set("MaxId: %s\nCurId: %s" % (self.maxEventId, self.currentEventId))
 
     def decreaseEventId(self):
+        """Decreases the current event ID by 1 and updates the maximum event ID if necessary.
+        Parameters:
+            - self (object): The object that the function is being called on.
+        Returns:
+            - None: The function does not return anything.
+        Processing Logic:
+            - Prints "Action Track: decreaseEventId" if self.debug is True.
+            - Sets self.currentEventId to "0" if it is currently an empty string.
+            - Otherwise, converts self.currentEventId to an integer, subtracts 1, and converts it back to a string.
+            - If the new self.currentEventId is greater than self.maxEventId, updates self.maxEventId to match.
+            - Sets self.EventIdString to a string containing the updated self.maxEventId and self.currentEventId."""
+        
         if self.debug:
             print("Action Track: decreaseEventId")
         if self.currentEventId == "":
@@ -209,6 +268,21 @@ class Example(Frame):
         self.EventIdString.set("MaxId: %s\nCurId: %s" % (self.maxEventId, self.currentEventId))
 
     def EventIdEnter(self,event):
+        """Function:
+        Sets the current event ID and updates the event ID string.
+        Parameters:
+            - self (object): The current object.
+            - event (event): The event that triggered the function.
+        Returns:
+            - None: This function does not return anything.
+        Processing Logic:
+            - Prints debug message if debug mode is enabled.
+            - Gets the content from the manual event ID entry.
+            - Sets the current event ID to the content.
+            - Updates the event ID string with the maximum event ID and current event ID.
+        Example:
+            EventIdEnter(self, event)"""
+        
         if self.debug:
             print("Action Track: EventIdEnter")
         content = self.ManualEventIdEntry.get()
@@ -217,6 +291,19 @@ class Example(Frame):
 
     
     def numberModel(self, event):
+        """"This function updates the current event ID and the maximum event ID based on the user's input. It also displays the updated values on the GUI.
+        Parameters:
+            - self (object): The current instance of the class.
+            - event (object): The event object that contains the user's input.
+        Returns:
+            - None: This function does not return any value.
+        Processing Logic:
+            - Prints debug message if self.debug is True.
+            - Updates the current event ID by concatenating the previous value with the new input.
+            - If the current event ID is greater than the maximum event ID, it updates the maximum event ID.
+            - Displays the updated values on the GUI.
+            - The text widget is disabled to prevent user input while the values are being updated.""""
+        
         if self.debug:
             print("Action Track: numberModel")
         print("Block text.")
@@ -233,6 +320,18 @@ class Example(Frame):
 
     ## cursor index show with the left click
     def singleLeftClick(self, event):
+        """"Returns the row and column of the cursor's position when a single left click event occurs."
+        Parameters:
+            - self (object): The object that the function is being called on.
+            - event (event): The event that triggers the function.
+        Returns:
+            - cursor_text (string): A string containing the row and column of the cursor's position.
+        Processing Logic:
+            - Prints "Action Track: singleLeftClick" if self.debug is True.
+            - Gets the index of the cursor and splits it into row and column.
+            - Formats the row and column into a string.
+            - Configures the cursorIndex object with the cursor_text string."""
+        
         if self.debug:
             print("Action Track: singleLeftClick")
         cursor_index = self.text.index(INSERT) 
@@ -243,6 +342,16 @@ class Example(Frame):
     
     ## TODO: select entity by double left click
     def doubleLeftClick(self, event):
+        """"Performs a double left click action on the given event.
+        Parameters:
+            - self (object): The object that the function is called on.
+            - event (object): The event that triggers the double left click action.
+        Returns:
+            - None: Does not return any value.
+        Processing Logic:
+            - Prints a debug message if self.debug is True.
+            - Does not perform any other processing logic.""""
+        
         if self.debug:
             print("Action Track: doubleLeftClick")
         pass
@@ -255,6 +364,8 @@ class Example(Frame):
 
     ## Disable right click default copy selection behaviour
     def rightClick(self, event):
+        """"""
+        
         if self.debug:
             print("Action Track: rightClick")
         try:
@@ -268,6 +379,8 @@ class Example(Frame):
 
 
     def onOpen(self):
+        """"""
+        
         ftypes = [('all files', '.*'), ('text files', '.txt'), ('ann files', '.ann')]
         dlg = Open(self, filetypes = ftypes)
         # file_opt = options =  {}
@@ -285,12 +398,16 @@ class Example(Frame):
             self.setCursorLabel(self.text.index(INSERT))
 
     def readFile(self, filename):
+        """"""
+        
         with open(filename, "rU") as f:
             text = f.read()
         self.fileName = filename
         return text
 
     def setFont(self, value):
+        """"""
+        
         _family=self.textFontStyle
         _size = value
         _weight="bold"
@@ -299,9 +416,13 @@ class Example(Frame):
         Text(self, font=fnt)
     
     def setNameLabel(self, new_file):
+        """"""
+        
         self.lbl.config(text=new_file)
 
     def setCursorLabel(self, cursor_index):
+        """"""
+        
         if self.debug:
             print("Action Track: setCursorLabel")
         row_column = cursor_index.split('.')
@@ -309,6 +430,8 @@ class Example(Frame):
         self.cursorIndex.config(text=cursor_text)
 
     def returnButton(self):
+        """"""
+        
         if self.debug:
             print("Action Track: returnButton")
         self.pushToHistory()
@@ -320,6 +443,8 @@ class Example(Frame):
 
 
     def returnEnter(self,event):
+        """"""
+        
         if self.debug:
             print("Action Track: returnEnter")
         self.pushToHistory()
@@ -330,6 +455,8 @@ class Example(Frame):
 
 
     def textReturnEnter(self,event):
+        """"""
+        
         press_key = event.char
         if self.debug:
             print("Action Track: textReturnEnter, press:",press_key)
@@ -344,6 +471,8 @@ class Example(Frame):
 
 
     def backToHistory(self,event):
+        """"""
+        
         if self.debug:
             print("Action Track: backToHistory")
         if len(self.history) > 0:
@@ -359,6 +488,8 @@ class Example(Frame):
         self.text.insert(INSERT, 'p')   # add a word as pad for key release delete
 
     def keepCurrent(self, event):
+        """"""
+        
         if self.debug:
             print("Action Track: keepCurrent")
         print("keep current, insert:%s"%(INSERT))
@@ -367,6 +498,8 @@ class Example(Frame):
         print("after:", self.text.index(INSERT))
 
     def clearCommand(self):
+        """"""
+        
         if self.debug:
             print("Action Track: clearCommand")
         self.entry.delete(0, 'end')

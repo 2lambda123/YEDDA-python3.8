@@ -27,6 +27,111 @@ import json
 
 class Example(Frame):
     def __init__(self, parent):
+        """Parameters:
+            - parent (object): The parent object of the frame.
+        Returns:
+            - None: This function does not return any value.
+        Processing Logic:
+            - Initialize the YEDDA-V1.0 Annotator.
+            - Set the OS variable.
+            - Set the parent variable.
+            - Set the fileName variable.
+            - Set the debug variable.
+            - Set the colorAllChunk variable.
+            - Set the recommendFlag variable.
+            - Create a history deque with a maximum length of 20.
+            - Create a currentContent deque with a maximum length of 1.
+            - Set the pressCommand dictionary with key-value pairs for different annotation types.
+            - Set the allKey variable to contain all possible keys for annotation.
+            - Set the controlCommand dictionary with key-value pairs for different control commands.
+            - Create empty lists for label entry and shortcut label.
+            - Set the configListLabel and configListBox variables to None.
+            - Set the textRow variable to 20 or the length of pressCommand, whichever is greater.
+            - Set the textColumn variable to 5.
+            - Set the tagScheme variable to "BIO".
+            - Set the onlyNP variable to False.
+            - Set the keepRecommend variable to True.
+            - Set the seged variable to False.
+            - Set the configFile variable to "configs/default.config".
+            - Set the entityRe variable to a regular expression for entity tags.
+            - Set the insideNestEntityRe variable to a regular expression for nested entity tags.
+            - Set the recommendRe variable to a regular expression for recommended tags.
+            - Set the goldAndrecomRe variable to a regular expression for gold and recommended tags.
+            - Set the entityColor variable to "SkyBlue1".
+            - Set the insideNestEntityColor variable to "light slate blue".
+            - Set the recommendColor variable to "lightgreen".
+            - Set the selectColor variable to "light salmon".
+            - Set the textFontStyle variable to "Times".
+            - Call the initUI function to initialize the GUI.
+        Example:
+            - init = __init__(self, parent)
+            - init.Version
+            - 'YEDDA-V1.0 Annotator'
+            - init.OS
+            - 'linux'
+            - init.parent
+            - <parent object>
+            - init.fileName
+            - ''
+            - init.debug
+            - False
+            - init.colorAllChunk
+            - True
+            - init.recommendFlag
+            - True
+            - init.history
+            - deque([], maxlen=20)
+            - init.currentContent
+            - deque([], maxlen=1)
+            - init.pressCommand
+            - {'a': 'Artifical', 'b': 'Event', 'c': 'Fin-Concept', 'd': 'Location', 'e': 'Organization', 'f': 'Person', 'g': 'Sector', 'h': 'Other'}
+            - init.allKey
+            - '0123456789abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ'
+            - init.controlCommand
+            - {'q': 'unTag', 'ctrl+z': 'undo'}
+            - init.labelEntryList
+            - []
+            - init.shortcutLabelList
+            - []
+            - init.configListLabel
+            - None
+            - init.configListBox
+            - None
+            - init.textRow
+            - 20
+            - init.textColumn
+            - 5
+            - init.tagScheme
+            - 'BIO'
+            - init.onlyNP
+            - False
+            - init.keepRecommend
+            - True
+            - init.seged
+            - False
+            - init.configFile
+            - 'configs/default.config'
+            - init.entityRe
+            - '\\[@.*?#.*?*](?!#)'
+            - init.insideNestEntityRe
+            - '\\[@\\[@(?!\\[@).*?#.*?*]#'
+            - init.recommendRe
+            - '\\[$.*?#.*?*](?!#)'
+            - init.goldAndrecomRe
+            - '\\[@.*?#.*?*](?!#)'
+            - init.entityColor
+            - 'SkyBlue1'
+            - init.insideNestEntityColor
+            - 'light slate blue'
+            - init.recommendColor
+            - 'lightgreen'
+            - init.selectColor
+            - 'light salmon'
+            - init.textFontStyle
+            - 'Times'
+            - init.initUI()
+            - <initialize the GUI>"""
+        
         Frame.__init__(self, parent)
         self.Version = "YEDDA-V1.0 Annotator"
         self.OS = platform.system().lower()
@@ -87,6 +192,30 @@ class Example(Frame):
 
 
     def initUI(self):
+        """This function initializes the user interface for a text editor application. It sets up the layout, buttons, and key bindings for the application.
+        Parameters:
+            - self (object): The current instance of the class.
+        Returns:
+            - None: This function does not return any value.
+        Processing Logic:
+            - Sets the title of the application window.
+            - Configures the columns and rows of the application layout.
+            - Creates a label to display the name of the current file.
+            - Creates a text box for the user to enter and edit text.
+            - Creates a scrollbar for the text box.
+            - Creates buttons for opening, saving, and exporting files.
+            - Creates a button for switching to a recommended model.
+            - Creates a button for switching to a not recommended model.
+            - Creates buttons for remapping and saving new mappings.
+            - Creates a button for quitting the application.
+            - Creates labels to display the current cursor position and the current model.
+            - Creates an entry field for the user to enter commands.
+            - Binds key presses to functions for handling text input and cursor movement.
+            - Binds mouse clicks to functions for handling text selection and cursor movement.
+            - Disables the default copy behavior when right clicking.
+            - Sets the initial map display.
+            - Creates a button for executing the entered command."""
+        
 
         self.parent.title(self.Version)
         self.pack(fill=BOTH, expand=True)
@@ -193,6 +322,19 @@ class Example(Frame):
 
     ## cursor index show with the left click
     def singleLeftClick(self, event):
+        """Function:
+        Returns the row and column of the cursor position when a single left click event occurs.
+        Parameters:
+            - self (object): The object that the function is bound to.
+            - event (event): The event object that contains information about the click.
+        Returns:
+            - cursor_text (str): A string containing the row and column of the cursor position.
+        Processing Logic:
+            - Prints a debug message if self.debug is True.
+            - Gets the index of the cursor position and splits it into row and column.
+            - Formats the row and column into a string and assigns it to cursor_text.
+            - Updates the cursorIndex label with the cursor_text."""
+        
         if self.debug:
             print("Action Track: singleLeftClick")
         cursor_index = self.text.index(INSERT)
@@ -203,6 +345,16 @@ class Example(Frame):
 
     ## TODO: select entity by double left click
     def doubleLeftClick(self, event):
+        """"Performs a double left click action on the given event."
+        Parameters:
+            - self (object): The object calling the function.
+            - event (object): The event on which the double left click action is performed.
+        Returns:
+            - None: This function does not return any value.
+        Processing Logic:
+            - Prints debug message if self.debug is True.
+            - Does nothing else."""
+        
         if self.debug:
             print("Action Track: doubleLeftClick")
         pass
@@ -215,6 +367,20 @@ class Example(Frame):
 
     ## Disable right click default copy selection behaviour
     def rightClick(self, event):
+        """Right click event handler for saving text content and cursor position.
+        Parameters:
+            - self (object): The object that calls the function.
+            - event (event): The event object that triggers the function.
+        Returns:
+            - None: This function does not return any value.
+        Processing Logic:
+            - Print debug message if debug mode is on.
+            - Get the index of the first selected character.
+            - Get the index of the cursor position.
+            - Get the text content from the text widget.
+            - Call the writeFile function to save the content and cursor position.
+            - If there is no selected text, do nothing."""
+        
         if self.debug:
             print("Action Track: rightClick")
         try:
@@ -226,12 +392,16 @@ class Example(Frame):
             pass
 
     def setInRecommendModel(self):
+        """"""
+        
         self.recommendFlag = True
         self.RecommendModelFlag.config(text = str(self.recommendFlag))
         messagebox.showinfo("Recommend Model", "Recommend Model has been activated!")
 
 
     def setInNotRecommendModel(self):
+        """"""
+        
         self.recommendFlag = False
         self.RecommendModelFlag.config(text = str(self.recommendFlag))
         content = self.getText()
@@ -241,6 +411,8 @@ class Example(Frame):
 
 
     def onOpen(self):
+        """"""
+        
         ftypes = [('all files', '.*'), ('text files', '.txt'), ('ann files', '.ann')]
         dlg = Open(self, filetypes = ftypes)
         # file_opt = options =  {}
@@ -259,12 +431,16 @@ class Example(Frame):
             self.setCursorLabel(self.text.index(INSERT))
 
     def readFile(self, filename):
+        """"""
+        
         with open(filename, "rU") as f:
             text = f.read()
         self.fileName = filename
         return text
 
     def setFont(self, value):
+        """"""
+        
         _family=self.textFontStyle
         _size = value
         _weight="bold"
@@ -273,9 +449,13 @@ class Example(Frame):
         Text(self, font=fnt)
 
     def setNameLabel(self, new_file):
+        """"""
+        
         self.lbl.config(text=new_file)
 
     def setCursorLabel(self, cursor_index):
+        """"""
+        
         if self.debug:
             print("Action Track: setCursorLabel")
         row_column = cursor_index.split('.')
@@ -283,6 +463,8 @@ class Example(Frame):
         self.cursorIndex.config(text=cursor_text)
 
     def returnButton(self):
+        """"""
+        
         if self.debug:
             print("Action Track: returnButton")
         self.pushToHistory()
@@ -294,6 +476,8 @@ class Example(Frame):
 
 
     def returnEnter(self,event):
+        """"""
+        
         if self.debug:
             print("Action Track: returnEnter")
         self.pushToHistory()
@@ -304,6 +488,8 @@ class Example(Frame):
 
 
     def textReturnEnter(self,event):
+        """"""
+        
         press_key = event.char
         if self.debug:
             print("Action Track: textReturnEnter")
@@ -317,6 +503,8 @@ class Example(Frame):
 
 
     def backToHistory(self,event):
+        """"""
+        
         if self.debug:
             print("Action Track: backToHistory")
         if len(self.history) > 0:
@@ -332,6 +520,8 @@ class Example(Frame):
         self.text.insert(INSERT, 'p')   # add a word as pad for key release delete
 
     def keepCurrent(self, event):
+        """"""
+        
         if self.debug:
             print("Action Track: keepCurrent")
         print("keep current, insert:%s"%(INSERT))
@@ -340,17 +530,23 @@ class Example(Frame):
         print("after:", self.text.index(INSERT))
 
     def clearCommand(self):
+        """"""
+        
         if self.debug:
             print("Action Track: clearCommand")
         self.entry.delete(0, 'end')
 
 
     def getText(self):
+        """"""
+        
         textContent = self.text.get("1.0","end-1c")
         textContent = textContent#.encode('utf-8')
         return textContent
 
     def executeCursorCommand(self,command):
+        """"""
+        
         if self.debug:
             print("Action Track: executeCursorCommand")
         content = self.getText()
